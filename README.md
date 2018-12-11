@@ -10,5 +10,4 @@
 
 - Stepper UL 2003
 
-
-![](https://i.imgur.com/fDH6dxD.jpg =450x)
+ <img src="https://i.imgur.com/fDH6dxD.jpg" width = "301" height = "403" alt="图片名称" align=center />

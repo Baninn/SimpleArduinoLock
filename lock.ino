@@ -12,7 +12,7 @@
 #define TP 2      //Trig_pin
 #define EP 3      //Echo_pin
 byte ssPins[] = {SS_1_PIN, SS_2_PIN};
-Stepper stepper(STEPS, 8, 6, 7, 5);
+Stepper stepper(STEPS, 8, 6, 7, 5);//1-8,2-6,3-7,4-5   1,2,3,4
 //MFRC522 mfrc522[1];   // Create MFRC522 instance.
 MFRC522 mfrc522[NR_OF_READERS]; 
 unsigned long lockOn=5000,on=0;
@@ -56,13 +56,13 @@ void loop()
       {
         Serial.println("BT is ready!"); // 返回到手机调试程序上  
         Serial.write("顺时针");
-        stepper.step(1024);
+        stepper.step(3072);
         lockOn=millis()+10000;
       }
      if(c=='2')
      {
        Serial.write("逆时针");
-       stepper.step(-1024);
+       stepper.step(-3072);
      }
   } 
   long microseconds = TP_init();//超声波
@@ -77,7 +77,7 @@ void loop()
        Serial.print("门未关好");
        Serial.print("Distacne_CM = ");
        Serial.println(distacne_cm);
-       //Buzzer_Di();
+       Buzzer_Di();
     }
       //lockOn=lockOn+5000;
   }

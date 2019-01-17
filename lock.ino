@@ -5,7 +5,7 @@
 #define SS_1_PIN        10         // Configurable, take a unused pin, only HIGH/LOW required, must be diffrent to SS 2
 #define SS_2_PIN        8          // Configurable, take a unused pin, only HIGH/LOW required, must be diffrent to SS 1
 #define NR_OF_READERS   2
-#define STEPS 64
+#define STEPS 64   //步进电机旋转一圈64步
 #define Buzzer 4
 #define CM 1      //Centimeter
 #define INC 0     //Inch
@@ -21,7 +21,7 @@ void setup()
   pinMode(TP,OUTPUT);       // set TP output for trigger  
   pinMode(EP,INPUT);        // set EP input for echo
   pinMode(Buzzer,OUTPUT);  //设置蜂鸣器输出引脚
-  stepper.setSpeed(210);
+  stepper.setSpeed(210);   //设置电机的转速：每分钟为210步
   Serial.begin(9600); // Initialize serial communications with the PC
   while (!Serial);    // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
   SPI.begin();        // Init SPI bus
@@ -64,6 +64,13 @@ void loop()
        Serial.write("逆时针");
        stepper.step(-3072);
      }
+     if(c=='3')
+     {
+       Serial.write("开关");
+       stepper.step(3072);
+       stepper.step(-3072);
+       lockOn=millis()+10000;
+     }
   } 
   long microseconds = TP_init();//超声波
   long distacne_cm = Distance(microseconds, CM);
@@ -96,8 +103,9 @@ void dump_byte_array(byte *buffer, byte bufferSize)
   Serial.print("\n");
   Serial.println(card);
 
-  if(card=="37 253 250 55 "||card=="21 36 26 107 ")
+  if(card=="37 253 250 55 "||card=="21 36 26 107 "||card=="123 40 232 35 "||card=="226 142 104 33 "||card=="61 191 128 98 ")
   {
+    /*
     if(on%2==0)
     {
       Serial.println("open"); 
@@ -111,6 +119,10 @@ void dump_byte_array(byte *buffer, byte bufferSize)
       stepper.step(-3072);
     }
     on++;
+    */
+    Serial.println("open"); 
+    stepper.step(3072);
+    stepper.step(-3072);
     lockOn=millis()+10000;
    }
    else
